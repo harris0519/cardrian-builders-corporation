@@ -3,13 +3,10 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://harris0519.github.io/cardrian-builders-corporation/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "preview": "vite preview"
   },
   "dependencies": {
     "lucide-react": "latest",
@@ -19,7 +16,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "latest",
-    "gh-pages": "^6.1.0",
     "vite": "latest"
   }
 }
