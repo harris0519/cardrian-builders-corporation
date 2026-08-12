@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { BrowserRouter, Routes, Route, Link, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Routes, Route, Link, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft, ArrowRight, Award, Building2, CheckCircle2, ChevronDown, Clock3,
   Factory, GraduationCap, HardHat, Hotel, Mail, MapPin, Menu, Phone, Quote,
@@ -195,4 +195,16 @@ function IndustryDetailPage() {
   </Layout>;
 }
 
-export default function App(){return <BrowserRouter><Routes><Route path="/" element={<HomePage/>}/><Route path="/industries" element={<IndustriesPage/>}/><Route path="/industries/:slug" element={<IndustryDetailPage/>}/><Route path="*" element={<HomePage/>}/></Routes></BrowserRouter>}
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/industries" element={<IndustriesPage />} />
+      <Route
+        path="/industries/:slug"
+        element={<IndustryDetailPage />}
+      />
+      <Route path="*" element={<HomePage />} />
+    </Routes>
+  );
+}
