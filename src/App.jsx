@@ -34,9 +34,9 @@ const industries = [
     slug: 'corporate-interiors', icon: Store, eyebrow: 'Interior Fit-Out', title: 'Corporate Interiors',
     short: 'Workplaces shaped around productivity, culture, and brand identity.',
     description: 'Our interior teams transform plans into polished workplaces through detailed coordination, disciplined scheduling, and careful management of finishes, systems, and specialist trades.',
-    hero: 'https://images.unsplash.com/photo-1497366811364-ccf2f2e4f6d6?auto=format&fit=crop&w=2000&q=88',
+    hero: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2000&q=88',
     gallery: [
-      'https://images.unsplash.com/photo-1497366753848-f7c0ad7b2d8c?auto=format&fit=crop&w=1200&q=85',
+      'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=85',
       'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85',
       'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=85',
     ],
