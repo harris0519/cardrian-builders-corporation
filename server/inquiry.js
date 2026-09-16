@@ -1,4 +1,4 @@
-const recipients = ['qs@cardrian.com', 'myp@cardrian.com', 'tengponco@cardrian.com', 'harrislazaro05@gmail.com'];
+const recipients = ['qs@cardrian.com', 'myp@cardrian.com', 'tengponco@cardrian.com', 'harrislazaro05@gmail.com', 'miguelponco@cardrian.com'];
 const fields = { name: ['Full name', 120], company: ['Company', 200], email: ['Email address', 254], phone: ['Contact number', 60], 'Project Type': ['Project type', 100], message: ['Project details', 10000] };
 const escape = value => value.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 

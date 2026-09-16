@@ -8,7 +8,7 @@ const input = { name: 'Sample Client', company: 'Example & Co', email: 'client@e
 test('all form fields, fixed routing, reply address and escaped HTML', () => {
   const email = buildEmail(validateInquiry(input));
   assert.equal(email.sender.email, 'info@cardrian.com');
-  assert.deepEqual(email.to.map(item => item.email), ['qs@cardrian.com', 'myp@cardrian.com', 'tengponco@cardrian.com', 'harrislazaro05@gmail.com']);
+  assert.deepEqual(email.to.map(item => item.email), ['qs@cardrian.com', 'myp@cardrian.com', 'tengponco@cardrian.com', 'harrislazaro05@gmail.com', 'miguelponco@cardrian.com']);
   assert.equal(email.replyTo.email, input.email);
   assert.ok(!email.htmlContent.includes('<script>'));
   assert.ok(email.htmlContent.includes('First line<br>&lt;script&gt;'));
@@ -25,7 +25,7 @@ test('Brevo request and provider failures', async () => {
   await sendInquiry(input, 'test-key', async (url, options) => {
     assert.equal(url, 'https://api.brevo.com/v3/smtp/email');
     assert.equal(options.headers['api-key'], 'test-key');
-    assert.equal(JSON.parse(options.body).to.length, 4);
+    assert.equal(JSON.parse(options.body).to.length, 5);
     return { ok: true, json: async () => ({ messageId: 'test' }) };
   });
   await assert.rejects(sendInquiry(input, 'test-key', async () => ({ ok: false })));

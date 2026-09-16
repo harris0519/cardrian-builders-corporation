@@ -20,7 +20,7 @@ npm run build
 The contact form posts to a Node.js API that sends email using
 [Brevo's transactional email API](https://developers.brevo.com/reference/send-transac-email).
 The sender is `info@cardrian.com`; recipients are `qs@cardrian.com`,
-`myp@cardrian.com`, `tengponco@cardrian.com`, and `harrislazaro05@gmail.com`.
+`myp@cardrian.com`, `tengponco@cardrian.com`, `harrislazaro05@gmail.com`, and `miguelponco@cardrian.com`.
 Emails include every existing form field in a branded HTML layout with a plain-text
 alternative. Reply-To is the client's email address.
 
