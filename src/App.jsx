@@ -150,8 +150,52 @@ function Footer() {
 function Layout({ children }) { return <div className="site-shell"><ScrollManager/><RevealObserver/><Header/><main>{children}</main><Footer/></div>; }
 
 function HomePage() {
-  const [formStatus, setFormStatus] = useState('');
-  const handleSubmit = e => { e.preventDefault(); setFormStatus('Thank you. Your inquiry has been prepared for submission.'); e.currentTarget.reset(); };
+  const [formStatus, setFormStatus] = useState({ type: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    // Bots commonly complete hidden fields. Silently accept those submissions
+    // without forwarding them to the company inbox.
+    if (formData.get('_honey')) {
+      form.reset();
+      return;
+    }
+
+    setIsSubmitting(true);
+    setFormStatus({ type: '', message: '' });
+
+    try {
+      const response = await fetch(import.meta.env.VITE_INQUIRY_API_URL || '/api/inquiry', {
+        method: 'POST',
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(formData.entries())),
+        signal: AbortSignal.timeout(20000),
+      });
+      const result = await response.json().catch(() => ({}));
+
+      const wasSuccessful = result.success === true;
+      if (!response.ok || !wasSuccessful) {
+        throw new Error(result.message || 'The inquiry could not be sent.');
+      }
+
+      form.reset();
+      setFormStatus({
+        type: 'success',
+        message: 'Thank you! Your project inquiry has been sent. We will be in touch soon.',
+      });
+    } catch {
+      setFormStatus({
+        type: 'error',
+        message: 'We could not send your inquiry right now. Please try again or email info@cardrian.com.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return <Layout>
     <section className="hero" id="home"><div className="hero-overlay"/><div className="hero-grid container">
       <div className="hero-copy reveal is-visible"><span className="eyebrow"><span/> Building with integrity since 1998</span><h1>Construction excellence, built to perform.</h1>
@@ -172,7 +216,7 @@ function HomePage() {
 
     <section className="mission-section section" id="mission"><div className="container mission-grid"><div className="mission-card primary reveal"><span className="section-kicker light">Our Mission</span><h2>Professional service without compromise.</h2><p>Cardrian Builders Corporation's mission is to provide services of the highest professional standard by completing projects at competitive cost and on schedule, while nurturing loyal relationships with clients and co-professionals.</p><Target size={64}/></div><div className="mission-card reveal"><span className="section-kicker">Our Vision</span><h2>To advance construction excellence in the Philippines.</h2><p>We aim to grow responsibly, continuously improve our capabilities, and become a trusted builder recognized for quality craftsmanship, dependable people, and superior project value.</p><div className="vision-values"><span>Quality</span><span>Integrity</span><span>Collaboration</span><span>Reliability</span></div></div></div></section>
 
-    <section className="contact-section section" id="contact"><div className="container contact-grid"><div className="contact-copy reveal"><span className="section-kicker light">Build With Us</span><h2>Let us turn your plans into a well-built reality.</h2><p>Tell us about your project requirements, target schedule, and location. Our team will be ready to discuss the next steps.</p><div className="contact-details"><a href="mailto:info@cardrian.com"><Mail/> info@cardrian.com</a><a href="tel:+(02) 8671-4078 | (02) 8671-4008"><Phone/> +(02) 8671-4078 | (02) 8671-4008</a><span><MapPin/> No. 40 Chestnut St. West Fairview, Quezon Ciy, Metro Manila, Philippines</span></div><small>Replace the sample contact details with the company’s official information.</small></div><form className="contact-form reveal" onSubmit={handleSubmit}><div className="field-row"><label>Full Name<input name="name" required placeholder="Your name"/></label><label>Company<input name="company" placeholder="Company name"/></label></div><div className="field-row"><label>Email Address<input type="email" name="email" required placeholder="name@company.com"/></label><label>Contact Number<input name="phone" placeholder="+63"/></label></div><label>Project Type<select name="projectType" defaultValue=""><option value="" disabled>Select a service</option><option>General Construction</option><option>Interior Fit-Out</option><option>Renovation</option><option>Project Management</option></select></label><label>Project Details<textarea name="message" rows="5" required placeholder="Briefly describe your project..."/></label><button className="btn btn-primary" type="submit">Send Project Inquiry <ArrowRight size={18}/></button>{formStatus&&<p className="form-status">{formStatus}</p>}</form></div></section>
+    <section className="contact-section section" id="contact"><div className="container contact-grid"><div className="contact-copy reveal"><span className="section-kicker light">Build With Us</span><h2>Let us turn your plans into a well-built reality.</h2><p>Tell us about your project requirements, target schedule, and location. Our team will be ready to discuss the next steps.</p><div className="contact-details"><a href="mailto:info@cardrian.com"><Mail/> info@cardrian.com</a><a href="tel:+(02) 8671-4078 | (02) 8671-4008"><Phone/> +(02) 8671-4078 | (02) 8671-4008</a><span><MapPin/> No. 40 Chestnut St. West Fairview, Quezon Ciy, Metro Manila, Philippines</span></div><small>Replace the sample contact details with the company’s official information.</small></div><form className="contact-form reveal" onSubmit={handleSubmit}><input className="form-honey" type="text" name="_honey" tabIndex="-1" autoComplete="off" aria-hidden="true"/><div className="field-row"><label>Full Name<input name="name" required autoComplete="name" placeholder="Your name"/></label><label>Company<input name="company" autoComplete="organization" placeholder="Company name"/></label></div><div className="field-row"><label>Email Address<input type="email" name="email" required autoComplete="email" placeholder="name@company.com"/></label><label>Contact Number<input type="tel" name="phone" autoComplete="tel" placeholder="+63"/></label></div><label>Project Type<select name="Project Type" defaultValue="" required><option value="" disabled>Select a service</option><option>General Construction</option><option>Interior Fit-Out</option><option>Renovation</option><option>Project Management</option></select></label><label>Project Details<textarea name="message" rows="5" required placeholder="Briefly describe your project..."/></label><button className="btn btn-primary" type="submit" disabled={isSubmitting}>{isSubmitting ? 'Sending Inquiry…' : 'Send Project Inquiry'} {!isSubmitting && <ArrowRight size={18}/>}</button><div className={`form-status ${formStatus.type}`} role="status" aria-live="polite">{formStatus.message}</div></form></div></section>
   </Layout>;
 }
 

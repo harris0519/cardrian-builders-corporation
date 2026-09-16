@@ -138,7 +138,11 @@ nav > a:hover::after { right: 0; }
 .contact-form input:focus, .contact-form select:focus, .contact-form textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(18,59,141,.09); }
 .contact-form textarea { resize: vertical; }
 .contact-form .btn { width: 100%; border: 0; }
-.form-status { margin: 16px 0 0; color: #19764b; font-size: .83rem; font-weight: 700; }
+.contact-form .btn:disabled { cursor: wait; opacity: .7; transform: none; box-shadow: none; }
+.form-honey { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden; }
+.form-status { min-height: 1.25em; margin: 16px 0 0; font-size: .83rem; font-weight: 700; }
+.form-status.success { color: #19764b; }
+.form-status.error { color: #b42318; }
 
 footer { padding: 36px 0; background: #050d20; color: #fff; }
 .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr .9fr; align-items: center; gap: 30px; }
